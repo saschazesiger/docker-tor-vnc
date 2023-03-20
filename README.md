@@ -1,7 +1,7 @@
 # Tor Browser in Docker optimized for Unraid
 This container will download and install Tor Browser in the preferred version and language.
 
-RESOLUTION: You can also change the resolution from the WebGUI, to do that simply click on 'Show more settings...' (on a resolution change it can occour that the screen is not filled entirely with the Tor Browser window, simply restart the container and it will be fullscreen again).
+RESOLUTION: You can also change the resolution from the WebGUI, to do that simply click on 'Show more settings...' (on a resolution change it can occour that the screen is not filled entirely with the Tor Browser window, simply restart the container and it will be fullscreen again)
 
 ## Env params
 | Name | Value | Example |
