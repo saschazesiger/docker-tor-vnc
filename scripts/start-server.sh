@@ -95,4 +95,4 @@ sleep 2
 
 echo "---Starting Tor-Browser---"
 cd ${DATA_DIR}
-${DATA_DIR}/start-tor-browser.desktop --display=:99 --P ${USER} --setDefaultBrowser ${EXTRA_PARAMETERS}
+/start-tor-browser.desktop --display=:99 --P ${USER} --setDefaultBrowser ${EXTRA_PARAMETERS}
