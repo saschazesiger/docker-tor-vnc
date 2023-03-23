@@ -45,5 +45,5 @@ websockify -D --web=/usr/share/novnc/ --cert=/etc/ssl/novnc.pem ${NOVNC_PORT} lo
 sleep 2
 
 echo "---Starting Tor-Browser---"
-sudo chmod +x /tor-browser/start-tor-browser.desktop
+/usr/bin/sudo chmod +x /tor-browser/start-tor-browser.desktop
 /tor-browser/start-tor-browser.desktop --display=:99 --P ${USER} --setDefaultBrowser ${EXTRA_PARAMETERS}
