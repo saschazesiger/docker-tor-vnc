@@ -46,4 +46,5 @@ sleep 2
 
 echo "---Starting Tor-Browser---"
 su root -c chmod +x /tor-browser/start-tor-browser.desktop
-/tor-browser/start-tor-browser.desktop --display=:99 --P ${USER} --setDefaultBrowser ${EXTRA_PARAMETERS}
+cd /tor-browser
+./start-tor-browser.desktop --display=:99 --P ${USER} --setDefaultBrowser ${EXTRA_PARAMETERS}
