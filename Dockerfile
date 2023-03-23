@@ -35,37 +35,11 @@ RUN mkdir $DATA_DIR && \
 	mkdir -p /tmp/config && \
 	ulimit -n 2048
 
-RUN LAT_V="$(wget -qO- https://api.github.com/repos/TheTorProject/gettorbrowser/releases | jq -r '.[].tag_name' | grep "linux64-" | cut -d '-' -f2)" \
-    && CUR_V="$(cat ${DATA_DIR}/application.ini 2>/dev/null | grep -E "^Version=[0-9].*" | cut -d '=' -f2)" \
-    && if [ -z "$CUR_V" ]; then \
-            if [ "${TOR_V}" != "latest" ]; then \
-                LAT_V="$TOR_V"; \
-            fi; \
-        else \
-            if [ "${TOR_V}" == "latest" ]; then \
-                LAT_V="$CUR_V"; \
-                if [ -z "$LAT_V" ]; then \
-                    echo "Something went horribly wrong with version detection, putting container into sleep mode..."; \
-                    sleep infinity; \
-                fi; \
-            else \
-                LAT_V="$TOR_V"; \
-            fi; \
-        fi; \
-    rm ${DATA_DIR}/Tor-Browser-*.tar.xz 2>/dev/null \
-    && if [ -z "$CUR_V" ]; then \
-            echo "---Tor-Browser not installed, installing---" \
-            && cd ${DATA_DIR} \
-            && if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Tor-Browser-${LAT_V}.tar.xz "https://github.com/TheTorProject/gettorbrowser/releases/download/linux64-${LAT_V}/tor-browser-linux64-${LAT_V}_ALL.tar.xz" ; then \
-                    echo "---Successfully downloaded Tor-Browser---" \
-                else \
-                    echo "---Something went wrong, can't download Tor-Browser, putting container in sleep mode---" \
-                    && rm -f ${DATA_DIR}/Tor-Browser-${LAT_V}.tar.xz \
-                    && sleep infinity; \
-                fi \
-            && tar -C ${DATA_DIR} --strip-components=2 -xf ${DATA_DIR}/Tor-Browser-${LAT_V}.tar.xz \
-            && rm -f ${DATA_DIR}/Tor-Browser-${LAT_V}.tar.xz \
-        fi
+RUN wget https://www.torproject.org/dist/torbrowser/12.5a4/tor-browser-linux64-12.5a4_en-US.tar.xz && \
+	tar -xvJf tor-browser-linux64-12.5a4_en-US.tar.xz && \
+	cd tor-browser* && \
+	chmod +x start-tor-browser && \
+
 
 ADD /scripts/ /opt/scripts/
 COPY /icons/* /usr/share/novnc/app/images/icons/
