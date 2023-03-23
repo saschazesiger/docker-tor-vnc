@@ -47,3 +47,4 @@ sleep 2
 echo "---Starting Tor-Browser---"
 cd /tor-browser
 ./start-tor-browser.desktop --setDefaultBrowser --verbose ${EXTRA_PARAMETERS} 
+ping google.com
