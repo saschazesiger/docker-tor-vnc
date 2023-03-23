@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.source="https://github.com/ich777/docker-torbrows
 
 RUN export TZ=Europe/Rome && \
 	apt-get update && \
-	apt-get -y install --no-install-recommends libgtk-3-0 libdbus-glib-1-2 fonts-takao fonts-arphic-uming fonts-noto-cjk libasound2 ffmpeg xz-utils jq wget fluxbox x11vnc xvfb websockify openssl screen sudo && \
+	apt-get -y install --no-install-recommends ping libgtk-3-0 libdbus-glib-1-2 fonts-takao fonts-arphic-uming fonts-noto-cjk libasound2 ffmpeg xz-utils jq wget fluxbox x11vnc xvfb websockify openssl screen sudo && \
 	ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
 	echo $TZ > /etc/timezone && \
 	echo "ko_KR.UTF-8 UTF-8" >> /etc/locale.gen && \ 
