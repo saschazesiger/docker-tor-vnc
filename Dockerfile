@@ -35,8 +35,9 @@ RUN mkdir $DATA_DIR && \
 	mkdir -p /tmp/config && \
 	ulimit -n 2048
 
-RUN wget https://dist.torproject.org/torbrowser/12.5a4/tor-browser-linux64-12.5a4_ALL.tar.xz /
-RUN	tar -xvJf tor-browser-linux64-12.5a4_ALL.tar.xz
+RUN cd / && \
+	wget https://dist.torproject.org/torbrowser/12.5a4/tor-browser-linux64-12.5a4_ALL.tar.xz && \
+	tar -xvJf tor-browser-linux64-12.5a4_ALL.tar.xz
 RUN	cd /tor-browser && \
 	chmod +x start-tor-browser.desktop
 
