@@ -46,9 +46,4 @@ sleep 2
 
 echo "---Starting Tor-Browser---"
 cd /tor-browser
-./start-tor-browser.desktop --setDefaultBrowser --verbose ${EXTRA_PARAMETERS} 
-while :
-do
-	echo "Press [CTRL+C] to stop.."
-	sleep 1
-done
+./start-tor-browser.desktop --display=:99 --P ${USER} --setDefaultBrowser ${EXTRA_PARAMETERS}
