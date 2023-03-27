@@ -1,8 +1,58 @@
+
 #!/bin/bash
 export DISPLAY=:99
 export XAUTHORITY=${DATA_DIR}/.Xauthority
 
+LAT_V="$(wget -qO- https://api.github.com/repos/TheTorProject/gettorbrowser/releases | jq -r '.[].tag_name' | grep "linux64-" | cut -d '-' -f2)"
+CUR_V="$(cat ${DATA_DIR}/application.ini 2>/dev/null | grep -E "^Version=[0-9].*" | cut -d '=' -f2)"
+if [ -z "$CUR_V" ]; then
+	if [ "${TOR_V}" != "latest" ]; then
+		LAT_V="$TOR_V"
+	fi
+else
+	if [ "${TOR_V}" == "latest" ]; then
+		LAT_V="$CUR_V"
+		if [ -z "$LAT_V" ]; then
+			echo "Something went horribly wrong with version detection, putting container into sleep mode..."
+			sleep infinity
+		fi
+	else
+		LAT_V="$TOR_V"
+	fi
+fi
 
+rm ${DATA_DIR}/Tor-Browser-*.tar.xz 2>/dev/null
+
+if [ -z "$CUR_V" ]; then
+	echo "---Tor-Browser not installed, installing---"
+	cd ${DATA_DIR}
+	if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Tor-Browser-${LAT_V}.tar.xz "https://github.com/TheTorProject/gettorbrowser/releases/download/linux64-${LAT_V}/tor-browser-linux64-${LAT_V}_ALL.tar.xz" ; then
+		echo "---Sucessfully downloaded Tor-Browser---"
+	else
+		echo "---Something went wrong, can't download Tor-Browser, putting container in sleep mode---"
+		rm -f ${DATA_DIR}/Tor-Browser-${LAT_V}.tar.xz
+		sleep infinity
+	fi
+	tar -C ${DATA_DIR} --strip-components=2 -xf ${DATA_DIR}/Tor-Browser-${LAT_V}.tar.xz
+	rm -f ${DATA_DIR}/Tor-Browser-${LAT_V}.tar.xz
+elif [ "$CUR_V" != "$LAT_V" ]; then
+	echo "---Version missmatch, installed v$CUR_V, downloading and installing latest v$LAT_V...---"
+    cd ${DATA_DIR}
+	mkdir -p /tmp/profile
+	cp -R ${DATA_DIR}/TorBrowser/Data/Browser /tmp/profile/
+	if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Tor-Browser-${LAT_V}.tar.xz "https://github.com/TheTorProject/gettorbrowser/releases/download/linux64-${LAT_V}/tor-browser-linux64-${LAT_V}_ALL.tar.xz" ; then
+		echo "---Sucessfully downloaded Tor-Browser---"
+	else
+		echo "---Something went wrong, can't download Tor-Browser, putting container in sleep mode---"
+		rm -f ${DATA_DIR}/Tor-Browser-${LAT_V}.tar.xz
+		sleep infinity
+	fi
+	tar -C ${DATA_DIR} --strip-components=2 -xf ${DATA_DIR}/Tor-Browser-${LAT_V}.tar.xz
+	rm -rf ${DATA_DIR}/TorBrowser/Data/Browser
+	cp -R /tmp/profile/Browser ${DATA_DIR}/TorBrowser/Data/
+	rm -f ${DATA_DIR}/Tor-Browser-${LAT_V}.tar.xz
+	rm -rf /tmp/profile
+fi
 
 echo "---Preparing Server---"
 echo "---Resolution check---"
@@ -45,5 +95,5 @@ websockify -D --web=/usr/share/novnc/ --cert=/etc/ssl/novnc.pem ${NOVNC_PORT} lo
 sleep 2
 
 echo "---Starting Tor-Browser---"
-cd /tor-browser
-./start-tor-browser.desktop --display=:99 --P ${USER} --setDefaultBrowser ${EXTRA_PARAMETERS}
+cd ${DATA_DIR}
+${DATA_DIR}/start-tor-browser --display=:99 --P ${USER} --setDefaultBrowser ${EXTRA_PARAMETERS}

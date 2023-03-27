@@ -1,3 +1,4 @@
+
 FROM ich777/novnc-baseimage
 
 LABEL org.opencontainers.image.authors="admin@minenet.at"
@@ -5,7 +6,7 @@ LABEL org.opencontainers.image.source="https://github.com/ich777/docker-torbrows
 
 RUN export TZ=Europe/Rome && \
 	apt-get update && \
-	apt-get -y install --no-install-recommends libgtk-3-0 libdbus-glib-1-2 fonts-takao fonts-arphic-uming fonts-noto-cjk libasound2 ffmpeg xz-utils jq wget fluxbox x11vnc xvfb websockify openssl screen sudo && \
+	apt-get -y install --no-install-recommends libgtk-3-0 libdbus-glib-1-2 fonts-takao fonts-arphic-uming fonts-noto-cjk libasound2 ffmpeg xz-utils jq && \
 	ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
 	echo $TZ > /etc/timezone && \
 	echo "ko_KR.UTF-8 UTF-8" >> /etc/locale.gen && \ 
@@ -34,14 +35,6 @@ RUN mkdir $DATA_DIR && \
 	chown -R $USER $DATA_DIR && \
 	mkdir -p /tmp/config && \
 	ulimit -n 2048
-
-RUN cd / && \
-	wget https://dist.torproject.org/torbrowser/12.5a4/tor-browser-linux64-12.5a4_ALL.tar.xz && \
-	tar -xvJf tor-browser-linux64-12.5a4_ALL.tar.xz
-RUN	cd /tor-browser && \
-	chmod 777 -R /tor-browser && \
-	chmod +x start-tor-browser.desktop
-
 
 ADD /scripts/ /opt/scripts/
 COPY /icons/* /usr/share/novnc/app/images/icons/
