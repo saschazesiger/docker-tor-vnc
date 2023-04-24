@@ -1,3 +1,4 @@
+mkdir /torbrowser
 wget -q -nc --show-progress --progress=bar:force:noscroll -O /torbrowser/Tor-Browser.tar.xz "https://github.com/TheTorProject/gettorbrowser/releases/download/linux64-12.0.5/tor-browser-linux64-12.0.5_ALL.tar.xz"
 echo "---Sucessfully downloaded Tor-Browser---"
 
