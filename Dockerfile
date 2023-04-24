@@ -3,17 +3,7 @@ FROM ich777/novnc-baseimage
 LABEL org.opencontainers.image.authors="admin@minenet.at"
 LABEL org.opencontainers.image.source="https://github.com/ich777/docker-torbrowser"
 
-RUN export TZ=Europe/Rome && \
-	apt-get update && \
-	apt-get -y install --no-install-recommends libgtk-3-0 libdbus-glib-1-2 fonts-takao fonts-arphic-uming fonts-noto-cjk libasound2 ffmpeg xz-utils jq && \
-	ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
-	echo $TZ > /etc/timezone && \
-	echo "ko_KR.UTF-8 UTF-8" >> /etc/locale.gen && \ 
-	echo "ja_JP.UTF-8 UTF-8" >> /etc/locale.gen && \
-	locale-gen && \
-	rm -rf /var/lib/apt/lists/* && \
-	sed -i '/    document.title =/c\    document.title = "Tor Browser - noVNC";' /usr/share/novnc/app/ui.js && \
-	rm /usr/share/novnc/app/images/icons/*
+
 
 ENV DATA_DIR=/torbrowser
 ENV CUSTOM_RES_W=1024
@@ -36,9 +26,9 @@ RUN mkdir $DATA_DIR && \
 	ulimit -n 2048
 
 ADD /scripts/ /opt/scripts/
-COPY /icons/* /usr/share/novnc/app/images/icons/
 COPY /conf/ /etc/.fluxbox/
 RUN chmod -R 770 /opt/scripts/
+RUN /bin/bash -c '/opt/scripts/start.sh'
 
 EXPOSE 8080
 
