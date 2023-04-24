@@ -1,4 +1,3 @@
-
 #!/bin/bash
 export DISPLAY=:99
 export XAUTHORITY=${DATA_DIR}/.Xauthority

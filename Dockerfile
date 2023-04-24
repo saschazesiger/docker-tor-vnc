@@ -1,4 +1,3 @@
-
 FROM ich777/novnc-baseimage
 
 LABEL org.opencontainers.image.authors="admin@minenet.at"
