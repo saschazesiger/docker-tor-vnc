@@ -11,9 +11,8 @@ RUN export TZ=Europe/Rome && \
 	echo "ko_KR.UTF-8 UTF-8" >> /etc/locale.gen && \ 
 	echo "ja_JP.UTF-8 UTF-8" >> /etc/locale.gen && \
 	locale-gen && \
-	rm -rf /var/lib/apt/lists/* && \
-	sed -i '/    document.title =/c\    document.title = "Tor Browser - noVNC";' /usr/share/novnc/app/ui.js && \
-	rm /usr/share/novnc/app/images/icons/*
+	rm -rf /var/lib/apt/lists/*
+
 
 
 ENV DATA_DIR=/torbrowser
@@ -41,7 +40,7 @@ COPY /conf/ /etc/.fluxbox/
 RUN chmod -R 770 /opt/scripts/
 RUN /opt/scripts/start-container.sh
 
-EXPOSE 8080
+EXPOSE 5900
 
 #Server Start
 ENTRYPOINT ["/opt/scripts/start.sh"]
