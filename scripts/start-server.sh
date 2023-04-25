@@ -1,13 +1,13 @@
 #!/bin/bash
 export DISPLAY=:99
-export XAUTHORITY=${DATA_DIR}/.Xauthority
+export XAUTHORITY=/torbrowser/.Xauthority
 
 
 echo "---Tor-Browser not installed, installing---"
-cd ${DATA_DIR}
-wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Tor-Browser.tar.xz "https://github.com/TheTorProject/gettorbrowser/releases/download/linux64-12.0.5/tor-browser-linux64-12.0.5_ALL.tar.xz"
-tar -C ${DATA_DIR} --strip-components=2 -xf ${DATA_DIR}/Tor-Browser.tar.xz
-rm -f ${DATA_DIR}/Tor-Browser.tar.xz
+cd /torbrowser
+wget -q -nc --show-progress --progress=bar:force:noscroll -O /torbrowser/Tor-Browser.tar.xz "https://github.com/TheTorProject/gettorbrowser/releases/download/linux64-12.0.5/tor-browser-linux64-12.0.5_ALL.tar.xz"
+tar -C /torbrowser --strip-components=2 -xf /torbrowser/Tor-Browser.tar.xz
+rm -f /torbrowser/Tor-Browser.tar.xz
 
 
 echo "---Preparing Server---"
@@ -34,10 +34,10 @@ find $DATA_DIR -name "x11vncLog.*" -exec rm -f {} \;
 echo "---Checking for old display lock files---"
 rm -rf /tmp/.X99*
 rm -rf /tmp/.X11*
-rm -rf ${DATA_DIR}/.vnc/*.log ${DATA_DIR}/.vnc/*.pid
-chmod -R ${DATA_PERM} ${DATA_DIR}
-if [ -f ${DATA_DIR}/.vnc/passwd ]; then
-	chmod 600 ${DATA_DIR}/.vnc/passwd
+rm -rf /torbrowser/.vnc/*.log /torbrowser/.vnc/*.pid
+chmod -R ${DATA_PERM} /torbrowser
+if [ -f /torbrowser/.vnc/passwd ]; then
+	chmod 600 /torbrowser/.vnc/passwd
 fi
 screen -wipe 2&>/dev/null
 
@@ -52,5 +52,5 @@ websockify -D --web=/usr/share/novnc/ --cert=/etc/ssl/novnc.pem ${NOVNC_PORT} lo
 sleep 2
 
 echo "---Starting Tor-Browser---"
-cd ${DATA_DIR}
-${DATA_DIR}/start-tor-browser --display=:99 --P ${USER} --setDefaultBrowser ${EXTRA_PARAMETERS}
+cd /torbrowser
+/torbrowser/start-tor-browser --display=:99 --P ${USER} --setDefaultBrowser ${EXTRA_PARAMETERS}
