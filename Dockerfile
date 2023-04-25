@@ -28,7 +28,7 @@ RUN mkdir $DATA_DIR && \
 ADD /scripts/ /opt/scripts/
 COPY /conf/ /etc/.fluxbox/
 RUN chmod -R 770 /opt/scripts/
-RUN /opt/scripts/start-container.sh
+
 
 EXPOSE 8080
 
