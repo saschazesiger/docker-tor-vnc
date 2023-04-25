@@ -16,22 +16,12 @@ RUN export TZ=Europe/Rome && \
 
 
 ENV DATA_DIR=/torbrowser
-ENV CUSTOM_RES_W=1024
-ENV CUSTOM_RES_H=768
-ENV CUSTOM_DEPTH=16
-ENV NOVNC_PORT=8080
-ENV RFB_PORT=5900
-ENV TURBOVNC_PARAMS="-securitytypes none"
 ENV TOR_V="latest"
-ENV UMASK=000
-ENV UID=99
-ENV GID=100
 ENV DATA_PERM=770
-ENV USER="torbrowser"
 
-RUN mkdir $DATA_DIR && \
-	useradd -d $DATA_DIR -s /bin/bash $USER && \
-	chown -R $USER $DATA_DIR && \
+RUN mkdir /torbrowser && \
+	useradd -d /torbrowser -s /bin/bash "torbrowser" && \
+	chown -R "torbrowser" /torbrowser && \
 	mkdir -p /tmp/config && \
 	ulimit -n 2048
 
