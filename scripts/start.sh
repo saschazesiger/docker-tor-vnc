@@ -1,15 +1,15 @@
 #!/bin/bash
-echo "---Ensuring UID: ${UID} matches user---"
-usermod -u ${UID} ${USER}
-groupmod -g ${GID} ${USER} > /dev/null 2>&1 ||:
-usermod -g ${GID} ${USER}
+echo "---Ensuring UID: 99 matches user---"
+usermod -u 99 torbrowser
+groupmod -g 100 torbrowser > /dev/null 2>&1 ||:
+usermod -g 100 torbrowser
 umask ${UMASK}
 
 
 echo "---Taking ownership of data...---"
-chown -R root:${GID} /opt/scripts
+chown -R root:100 /opt/scripts
 chmod -R 750 /opt/scripts
-chown -R ${UID}:${GID} ${DATA_DIR}
+chown -R 99:100 ${DATA_DIR}
 
 echo "---Starting...---"
 term_handler() {
@@ -19,7 +19,7 @@ term_handler() {
 }
 
 trap 'kill ${!}; term_handler' SIGTERM
-su ${USER} -c "/opt/scripts/start-server.sh" &
+su torbrowser -c "/opt/scripts/start-server.sh" &
 killpid="$!"
 while true
 do
