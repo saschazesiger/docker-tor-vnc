@@ -6,7 +6,7 @@ export XAUTHORITY=/torbrowser/.Xauthority
 screen -wipe 2&>/dev/null
 
 echo "---Starting TurboVNC server---"
-vncserver -geometry 1024x768 -depth 16 :99 -rfbport 5900 -noxstartup 2>/dev/null
+vncserver -geometry 1024x768 -depth ${CUSTOM_DEPTH} :99 -rfbport 5900 -noxstartup ${TURBOVNC_PARAMS} 2>/dev/null
 
 echo "---Starting Fluxbox---"
 /opt/scripts/start-fluxbox.sh &
