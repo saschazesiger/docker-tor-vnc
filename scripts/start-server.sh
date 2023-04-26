@@ -15,4 +15,4 @@ echo "---Starting Fluxbox---"
 
 echo "---Starting Tor-Browser---"
 cd /torbrowser
-/torbrowser/start-tor-browser --display=:99 --P torbrowser --setDefaultBrowser ${EXTRA_PARAMETERS}
+/torbrowser/start-tor-browser ${URL} --display=:99 --P torbrowser --setDefaultBrowser ${EXTRA_PARAMETERS}

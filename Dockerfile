@@ -1,7 +1,7 @@
 FROM ich777/novnc-baseimage
 
-LABEL org.opencontainers.image.authors="admin@minenet.at"
-LABEL org.opencontainers.image.source="https://github.com/ich777/docker-torbrowser"
+LABEL org.opencontainers.image.authors="janis@js0.ch"
+LABEL org.opencontainers.image.source="https://github.com/saschazesiger/docker-tor-vnc"
 
 RUN export TZ=Europe/Rome && \
 	apt-get update && \
@@ -28,6 +28,7 @@ ENV UID=99
 ENV GID=100
 ENV DATA_PERM=770
 ENV USER="torbrowser"
+ENV URL="https://browser.lol/redirect-url-to"
 
 RUN mkdir /torbrowser && \
 	useradd -d /torbrowser -s /bin/bash "torbrowser" && \
