@@ -1,4 +1,4 @@
-FROM ich777/novnc-baseimage
+FROM j4n11s/base-vnc
 
 LABEL org.opencontainers.image.authors="janis@js0.ch"
 LABEL org.opencontainers.image.source="https://github.com/saschazesiger/docker-tor-vnc"
