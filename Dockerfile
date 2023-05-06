@@ -1,47 +1,26 @@
 FROM j4n11s/base-vnc
 
 LABEL org.opencontainers.image.authors="janis@js0.ch"
-LABEL org.opencontainers.image.source="https://github.com/saschazesiger/docker-tor-vnc"
+LABEL org.opencontainers.image.source="https://github.com/saschazesiger/"
 
-RUN export TZ=Europe/Rome && \
-	apt-get update && \
-	apt-get -y install --no-install-recommends libgtk-3-0 libdbus-glib-1-2 fonts-takao fonts-arphic-uming fonts-noto-cjk libasound2 ffmpeg xz-utils jq && \
-	ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
-	echo $TZ > /etc/timezone && \
-	echo "ko_KR.UTF-8 UTF-8" >> /etc/locale.gen && \ 
-	echo "ja_JP.UTF-8 UTF-8" >> /etc/locale.gen && \
-	locale-gen && \
-	rm -rf /var/lib/apt/lists/*
+ENV URL=https://browser.lol/redirect-url-to
+
+COPY /scripts /opt/scripts
+
+RUN apt-get update && \
+	apt-get -y install --no-install-recommends xz-utils fonts-takao fonts-arphic-uming libgtk-3-0 libgconf-2-4 libnss3 fonts-liberation libasound2 libcurl3-gnutls libcurl3-nss libcurl4 libgbm1 libnspr4 libnss3 libu2f-udev xdg-utils
 
 
 
-ENV DATA_DIR=/torbrowser
-ENV CUSTOM_RES_W=1024
-ENV CUSTOM_RES_H=768
-ENV CUSTOM_DEPTH=16
-ENV NOVNC_PORT=8080
-ENV RFB_PORT=5900
-ENV TURBOVNC_PARAMS="-securitytypes none"
-ENV TOR_V="latest"
-ENV UMASK=000
-ENV UID=99
-ENV GID=100
-ENV DATA_PERM=770
-ENV USER="torbrowser"
-ENV URL="https://browser.lol/redirect-url-to"
-
-RUN mkdir /torbrowser && \
-	useradd -d /torbrowser -s /bin/bash "torbrowser" && \
-	chown -R "torbrowser" /torbrowser && \
-	mkdir -p /tmp/config && \
-	ulimit -n 2048
-
-ADD /scripts/ /opt/scripts/
-COPY /conf/ /etc/.fluxbox/
-RUN chmod -R 770 /opt/scripts/
-RUN /opt/scripts/start-container.sh
-
-EXPOSE 5900
+RUN mkdir /tmp-profile && \
+	mkdir /tor && \
+	cd /tor && \
+	wget -q -nc --show-progress --progress=bar:force:noscroll -O /tor/Tor-Browser.tar.xz "https://github.com/TheTorProject/gettorbrowser/releases/download/linux64-12.0.5/tor-browser-linux64-12.0.5_ALL.tar.xz" && \
+	tar -C /tor --strip-components=2 -xf /tor/Tor-Browser.tar.xz && \
+	rm -f /tor/Tor-Browser.tar.xz && \
+	cp -R /tmp-profile /tor/TorBrowser/Data/ && \
+	rm -f /tor/Tor-Browser.tar.xz && \
+	rm -rf /tmp-profile
 
 #Server Start
-ENTRYPOINT ["/opt/scripts/start.sh"]
+CMD ["bash", "/opt/scripts/start.sh"]
