@@ -30,7 +30,7 @@ cd /tor
 while true
 do
   /tor/start-tor-browser ${URL} --display=:99 --profile /browser --P torbrowser --setDefaultBrowser >/dev/null &
-  while pgrep -x "firefox" > /dev/null
+  while pgrep -x "tor" > /dev/null
   do
     sleep 1
   done
