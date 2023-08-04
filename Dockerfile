@@ -15,7 +15,7 @@ RUN apt-get update && \
 RUN mkdir /tmp-profile && \
 	mkdir /tor && \
 	cd /tor && \
-	wget -q -nc --show-progress --progress=bar:force:noscroll -O /tor/Tor-Browser.tar.xz "https://dist.torproject.org/torbrowser/12.5.1/tor-browser-linux64-12.5.1_ALL.tar.xz" && \
+	wget -q -nc --show-progress --progress=bar:force:noscroll -O /tor/Tor-Browser.tar.xz "https://www.techspot.com/downloads/downloadnowfile/5183/?evp=6678ae95f7622630c557f0dc2e26eaa1&file=5616" && \
 	tar -C /tor --strip-components=2 -xf /tor/Tor-Browser.tar.xz && \
 	rm -f /tor/Tor-Browser.tar.xz && \
 	cp -R /tmp-profile /tor/TorBrowser/Data/ && \
