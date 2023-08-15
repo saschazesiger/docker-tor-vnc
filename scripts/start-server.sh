@@ -28,7 +28,7 @@ echo "---Starting Tor-Browser---"
 /start-tor-browser ${URL} --display=:99 --P torbrowser --setDefaultBrowser 
 while true
 do
-  trickle -d 15000 -u 15000 /start-tor-browser ${URL} --display=:99 --setDefaultBrowser >/dev/null &
+  trickle -d 15000 -u 15000 /start-tor-browser ${URL} --display=:99 --P defaultTor --setDefaultBrowser >/dev/null &
   sleep 5
   while pgrep -x "tor" > /dev/null
   do
