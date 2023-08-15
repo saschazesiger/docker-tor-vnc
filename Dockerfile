@@ -13,8 +13,8 @@ RUN apt-get update && \
 
 
 
-RUN download_link=$(curl -s "https://aus1.torproject.org/torbrowser/update_3/release/downloads.json" | jq -r '.downloads.linux64.ALL.binary')
-RUN wget -q -nc --show-progress --progress=bar:force:noscroll -O /tor.tar.xz "$download_link"
+RUN download_link=$(curl -s "https://aus1.torproject.org/torbrowser/update_3/release/downloads.json" | jq -r '.downloads.linux64.ALL.binary') &&\
+	wget -q -nc --show-progress --progress=bar:force:noscroll -O /tor.tar.xz "$download_link"
 RUN tar -C / --strip-components=2 -xf /tor.tar.xz
 RUN rm -f /tor.tar.xz
 
