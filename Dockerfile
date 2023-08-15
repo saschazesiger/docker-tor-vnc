@@ -12,11 +12,11 @@ RUN apt-get update && \
 
 
 
-RUN mkdir /tmp-profile && \
-	download_link=$(curl -s "https://aus1.torproject.org/torbrowser/update_3/release/downloads.json" | jq -r '.downloads.linux64.ALL.binary') && \
-	wget -q -nc --show-progress --progress=bar:force:noscroll -O /tmp/tor.tar.xz "$download_link" && \
-	tar -C /tmp --strip-components=2 -xf /tmp/tor.tar.xz && \
-	rm -f /tmp/tor.tar.xz && \
+
+RUN download_link=$(curl -s "https://aus1.torproject.org/torbrowser/update_3/release/downloads.json" | jq -r '.downloads.linux64.ALL.binary')
+RUN wget -q -nc --show-progress --progress=bar:force:noscroll -O /tmp/tor.tar.xz "$download_link"
+RUN tar -C /tmp --strip-components=2 -xf /tmp/tor.tar.xz
+RUN rm -f /tmp/tor.tar.xz
 
 #Server Start
 CMD ["bash", "/opt/scripts/start.sh"]
