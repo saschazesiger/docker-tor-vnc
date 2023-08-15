@@ -26,7 +26,7 @@ screen -d -m env HOME=/etc /usr/bin/fluxbox
 
 echo "---Starting Tor-Browser---"
 cd /tor
-/tor/start-tor-browser ${URL} --display=:99 --P torbrowser --setDefaultBrowser 
+/tor/start-tor-browser ${URL} --display=:99 -P "default" --setDefaultBrowser 
 while true
 do
   trickle -d 15000 -u 15000 /tor/start-tor-browser ${URL} --display=:99 --setDefaultBrowser >/dev/null &
