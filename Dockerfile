@@ -1,5 +1,7 @@
 FROM j4n11s/base-vnc
 
+SHELL ["/bin/bash", "-c"]
+
 LABEL org.opencontainers.image.authors="janis@js0.ch"
 LABEL org.opencontainers.image.source="https://github.com/saschazesiger/"
 
@@ -37,8 +39,8 @@ RUN apt-get update && \
 RUN mkdir /tmp-profile && \
 	mkdir /tor && \
 	cd /tor && \
-	download_link=$(curl -s "https://www.torproject.org/download/" | grep -o -m 1 'href="/dist/torbrowser/.*.tar.xz"') &&\
-	wget -q -nc --show-progress --progress=bar:force:noscroll -O /tor/Tor-Browser.tar.xz "https://www.torproject.org${download_link:6:-1}" &&\
+	download_link=$(curl -s "https://www.torproject.org/download/" | grep -o -m 1 'href="/dist/torbrowser/.*.tar.xz"' | sed 's/^href="//;s/"$//') &&\
+	wget -q -nc --show-progress --progress=bar:force:noscroll -O /tor/Tor-Browser.tar.xz "https://www.torproject.org$download_link" &&\
 	tar -C /tor --strip-components=2 -xf /tor/Tor-Browser.tar.xz && \
 	rm -f /tor/Tor-Browser.tar.xz && \
 	cp -R /tmp-profile /tor/TorBrowser/Data/ && \
