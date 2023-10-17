@@ -37,8 +37,8 @@ RUN apt-get update && \
 RUN mkdir /tmp-profile && \
 	mkdir /tor && \
 	cd /tor && \
-	download_link=$(curl -s "https://aus1.torproject.org/torbrowser/update_3/release/downloads.json" | jq -r '.downloads.linux64.ALL.binary') &&\
-	wget -q -nc --show-progress --progress=bar:force:noscroll -O /tor/Tor-Browser.tar.xz "$download_link" &&\
+	download_link=$(curl -s "https://www.torproject.org/download/" | grep -o -m 1 'href="/dist/torbrowser/.*.tar.xz"') &&\
+	wget -q -nc --show-progress --progress=bar:force:noscroll -O /tor/Tor-Browser.tar.xz "https://www.torproject.org${download_link:6:-1}" &&\
 	tar -C /tor --strip-components=2 -xf /tor/Tor-Browser.tar.xz && \
 	rm -f /tor/Tor-Browser.tar.xz && \
 	cp -R /tmp-profile /tor/TorBrowser/Data/ && \
